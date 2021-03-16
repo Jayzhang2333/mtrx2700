@@ -54,9 +54,25 @@ start:    ldaa    #LEDON	; load accumulator with value for port B
 
 
 delay:
+          pshx
+          pshy
           ; <your code goes here>
           ;
+          ldx #60000
+          ldy #50
+          
+inner_loop:
+            psha  ;push requires 2 cycle
+            pula  ; pull requires 3 cycle
+            dbne x, inner_loop ;dbne requires 3 cycle
+            
+            ldx #60000
+            dbne y, inner_loop
+          
+          puly
+          pulx  
           rts		; return from subroutine
+                  
   
 
 
